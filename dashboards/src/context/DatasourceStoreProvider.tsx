@@ -11,7 +11,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { ReactElement, ReactNode, useCallback, useMemo, useState } from 'react';
+import { ReactElement, ReactNode, useCallback, useMemo, useRef, useState } from 'react';
 import { DashboardSpec, DatasourceSelector, DatasourceSpec } from '@perses-dev/spec';
 import {
   DatasourceStoreContext,
@@ -48,7 +48,7 @@ export function DatasourceStoreProvider(props: DatasourceStoreProviderProps): Re
     props.savedDatasources ?? {}
   );
   // Cache for synchronous datasource spec access
-  const [datasourceSpecCache, setDatasourceSpecCache] = useState<Map<string, DatasourceSpec>>(new Map());
+  const datasourceSpecCache = useRef<Map<string, DatasourceSpec>>(new Map());
   const project = projectName ?? dashboardResource?.metadata.project;
 
   const { getPlugin, listPluginMetadata } = usePluginRegistry();
@@ -56,7 +56,8 @@ export function DatasourceStoreProvider(props: DatasourceStoreProviderProps): Re
   // Helper to create cache key from DatasourceSelector
   const createCacheKey = useCallback(
     (selector: DatasourceSelector): string => {
-      return `${selector.kind}:${selector.name ?? 'default'}:${project ?? 'global'}`;
+      const name = selector.name === undefined ? '__undefined__' : selector.name;
+      return `${selector.kind}:${name}:${project ?? 'global'}`;
     },
     [project]
   );
@@ -77,7 +78,7 @@ export function DatasourceStoreProvider(props: DatasourceStoreProviderProps): Re
         };
         // Cache the spec for synchronous access
         const cacheKey = createCacheKey(selector);
-        setDatasourceSpecCache((prev) => new Map(prev).set(cacheKey, result.spec));
+        datasourceSpecCache.current.set(cacheKey, result.spec);
         return result;
       }
     }
@@ -95,7 +96,7 @@ export function DatasourceStoreProvider(props: DatasourceStoreProviderProps): Re
         };
         // Cache the spec for synchronous access
         const cacheKey = createCacheKey(selector);
-        setDatasourceSpecCache((prev) => new Map(prev).set(cacheKey, result.spec));
+        datasourceSpecCache.current.set(cacheKey, result.spec);
         return result;
       }
     }
@@ -111,7 +112,7 @@ export function DatasourceStoreProvider(props: DatasourceStoreProviderProps): Re
       };
       // Cache the spec for synchronous access
       const cacheKey = createCacheKey(selector);
-      setDatasourceSpecCache((prev) => new Map(prev).set(cacheKey, result.spec));
+      datasourceSpecCache.current.set(cacheKey, result.spec);
       return result;
     }
 
@@ -207,9 +208,9 @@ export function DatasourceStoreProvider(props: DatasourceStoreProviderProps): Re
   const getDatasourceSpecSync = useCallback(
     (selector: DatasourceSelector): DatasourceSpec | undefined => {
       const cacheKey = createCacheKey(selector);
-      return datasourceSpecCache.get(cacheKey);
+      return datasourceSpecCache.current.get(cacheKey);
     },
-    [createCacheKey, datasourceSpecCache]
+    [createCacheKey]
   );
 
   const setLocalDatasources = useCallback(
