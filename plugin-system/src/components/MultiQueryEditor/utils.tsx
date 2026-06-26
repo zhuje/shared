@@ -11,19 +11,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import React, { createContext, useContext, ReactNode } from 'react';
+import { QueryDefinition } from '@perses-dev/spec';
 
-interface QueryCountProviderProps {
-  queryCount: number;
-  children: ReactNode;
+export function defaultQueryName(index: number): string {
+  return `Query #${index + 1}`;
 }
 
-const QueryCountContext = createContext<number>(0);
-
-export const QueryCountProvider: React.FC<QueryCountProviderProps> = ({ queryCount, children }) => {
-  return <QueryCountContext.Provider value={queryCount}>{children}</QueryCountContext.Provider>;
-};
-
-export const useQueryCountContext = (): number => {
-  return useContext(QueryCountContext);
-};
+/**
+ * Returns the display name of each query definition, falling back to a default
+ * name based on the query position when no explicit name is set.
+ */
+export function generateQueryNames(definitions: QueryDefinition[]): string[] {
+  return definitions.map((queryDef: QueryDefinition, index: number) => queryDef.spec.name ?? defaultQueryName(index));
+}
