@@ -16,10 +16,12 @@ import type { ComponentType, ReactNode, SVGProps } from 'react';
 
 import type { AlertProps } from '../primitives/Alert';
 import type { ButtonProps } from '../primitives/Button';
+import type { IconButtonProps } from '../primitives/IconButton';
 import type { SpinnerProps } from '../primitives/Spinner';
 
 export interface PersesComponents {
   Button: ComponentType<ButtonProps>;
+  IconButton: ComponentType<IconButtonProps>;
   Alert: ComponentType<AlertProps>;
   Spinner: ComponentType<SpinnerProps>;
 }
@@ -54,7 +56,12 @@ export interface ComponentsProviderProps {
    *
    * @example
    * // Provide only custom components
-   * const components: PersesComponents = { Alert: MyAlert, Button: MyButton, Spinner: MySpinner };
+   * const components: PersesComponents = {
+   *   Alert: MyAlert,
+   *   Button: MyButton,
+   *   IconButton: MyIconButton,
+   *   Spinner: MySpinner,
+   * };
    */
   components: PersesComponents;
   /**
