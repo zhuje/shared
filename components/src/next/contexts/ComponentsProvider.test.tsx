@@ -12,10 +12,10 @@
 // limitations under the License.
 
 import { render, screen } from '@testing-library/react';
-import { forwardRef } from 'react';
-import type { FC, ReactElement, SVGProps } from 'react';
+import { createRef, forwardRef } from 'react';
+import type { FC, ReactElement, Ref, SVGProps } from 'react';
 
-import type { ButtonProps } from '../primitives';
+import type { BoxProps, ButtonProps } from '../primitives';
 import { defaultComponents, defaultIcons } from '../primitives/defaults';
 import { ComponentsProvider, useComponents } from './ComponentsProvider';
 import type { ComponentsContextValue, PersesComponents } from './ComponentsProvider';
@@ -23,7 +23,39 @@ import type { ComponentsContextValue, PersesComponents } from './ComponentsProvi
 const components = defaultComponents;
 const icons = defaultIcons;
 
+function BoxConsumer({ boxRef }: { boxRef: Ref<HTMLDivElement> }): ReactElement {
+  const {
+    components: { Box },
+  } = useComponents();
+  return <Box ref={boxRef}>Box content</Box>;
+}
+
+const CustomBox = forwardRef<HTMLDivElement, BoxProps>(function CustomBox({ children }, ref) {
+  return (
+    <div ref={ref} className="custom-box">
+      {children}
+    </div>
+  );
+});
+
+const customBoxComponents: PersesComponents = { ...components, Box: CustomBox };
+
 describe('ComponentsProvider', () => {
+  it.each([
+    ['default', components, 'ps-Box'],
+    ['custom', customBoxComponents, 'custom-box'],
+  ] as const)('forwards a ref through the %s Box from useComponents', (_name, providedComponents, className) => {
+    const ref = createRef<HTMLDivElement>();
+    render(
+      <ComponentsProvider components={providedComponents} icons={icons}>
+        <BoxConsumer boxRef={ref} />
+      </ComponentsProvider>,
+    );
+
+    expect(ref.current).toBe(screen.getByText('Box content'));
+    expect(ref.current).toHaveClass(className);
+  });
+
   it('renders components passed in via props', () => {
     function TestConsumer(): ReactElement {
       const {

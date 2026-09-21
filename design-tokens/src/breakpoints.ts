@@ -11,7 +11,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-export * from './types';
-export { breakpoints } from './breakpoints';
-export { tokens } from './tokens';
-export { blue, green, gray, orange, purple, red, white, black } from './colors';
+export const breakpoints = {
+  xs: 0,
+  sm: 600,
+  md: 900,
+  lg: 1200,
+  xl: 1536,
+} as const;

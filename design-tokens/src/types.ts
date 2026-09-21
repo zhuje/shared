@@ -89,3 +89,5 @@ export type PersesTokenVar =
   | FontVar;
 
 export type PersesMode = 'light' | 'dark';
+
+export type Breakpoint = 'xs' | 'sm' | 'md' | 'lg' | 'xl';

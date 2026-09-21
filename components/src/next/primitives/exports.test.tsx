@@ -21,6 +21,7 @@ import type {
   ButtonSize,
   ButtonVariant,
   IconProps,
+  ResponsiveValue,
   SpacingToken,
   SpinnerProps,
 } from './index';
@@ -39,6 +40,7 @@ describe('primitives barrel exports', () => {
     const severity: AlertSeverity = 'info';
     const boxProps: BoxProps = {};
     const spacingToken: SpacingToken = 'md';
+    const responsiveValue: ResponsiveValue<SpacingToken> = { xs: 'sm', md: 'lg' };
     const buttonProps: ButtonProps = {};
     const variant: ButtonVariant = 'solid';
     const color: ButtonColor = 'primary';
@@ -50,6 +52,7 @@ describe('primitives barrel exports', () => {
     expect(severity).toBe('info');
     expect(boxProps).toBeDefined();
     expect(spacingToken).toBe('md');
+    expect(responsiveValue).toEqual({ xs: 'sm', md: 'lg' });
     expect(buttonProps).toBeDefined();
     expect(variant).toBe('solid');
     expect(color).toBe('primary');

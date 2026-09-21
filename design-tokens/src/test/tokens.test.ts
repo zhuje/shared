@@ -11,6 +11,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import { breakpoints } from '../breakpoints';
 import { blue, green, gray, orange, purple, red, white, black } from '../colors';
 import { tokens } from '../tokens';
 
@@ -128,5 +129,11 @@ describe('tokens object', () => {
     expect(Object.keys(tokens)).toEqual(
       expect.arrayContaining(['color', 'bg', 'border', 'text', 'status', 'spacing', 'radius', 'font']),
     );
+  });
+});
+
+describe('breakpoints', () => {
+  it('defines the shared responsive thresholds', () => {
+    expect(breakpoints).toEqual({ xs: 0, sm: 600, md: 900, lg: 1200, xl: 1536 });
   });
 });
