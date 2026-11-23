@@ -35,14 +35,8 @@ samp {
   color: var(--perses-text-primary);
 }
 
-[data-perses-mode='dark'] h1,
-[data-perses-mode='dark'] h2,
-[data-perses-mode='dark'] h3,
-[data-perses-mode='dark'] h4,
-[data-perses-mode='dark'] h5,
-[data-perses-mode='dark'] h6,
-[data-perses-mode='dark'] p,
-[data-perses-mode='dark'] label {
+/* Story prose only: Perses components (`ps-*`) own their colours. */
+[data-perses-mode='dark'] :is(h1, h2, h3, h4, h5, h6, p, label):not([class*='ps-']) {
   color: var(--perses-text-primary);
 }
 
