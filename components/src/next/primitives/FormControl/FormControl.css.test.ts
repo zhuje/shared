@@ -52,14 +52,14 @@ describe('formControl.css contracts', () => {
     document.body.innerHTML = '';
   });
 
-  it('T25 is wrapped in the components layer and uses tokens only', () => {
+  it('is wrapped in the components layer and uses tokens only', () => {
     expect(source).toContain('@layer perses.components {');
     expect(source).not.toMatch(/#[0-9a-f]{3,8}\b/i);
     expect(source.replace(/\/\*[\s\S]*?\*\//g, '')).not.toMatch(/\b\d+px\b/);
     expect(source).not.toContain('!important');
   });
 
-  it('T25 wraps overridable defaults in :where()', () => {
+  it('wraps overridable defaults in :where()', () => {
     expect(source).toMatch(/:where\(\.ps-FormControl\)\s*\{[^}]*display:\s*flex/);
     expect(source).toMatch(/:where\(\.ps-FormGroup\)\s*\{[^}]*display:\s*flex/);
     expect(source).toMatch(/:where\(\.ps-FormGroup\)\s*\{[^}]*border:\s*0/);
@@ -71,7 +71,7 @@ describe('formControl.css contracts', () => {
     expect(propertyFor(make('ps-FormGroup', 'fieldset'), 'box-sizing')).toBe('border-box');
   });
 
-  it('T25 styles the state selectors each part emits', () => {
+  it('styles the state selectors each part emits', () => {
     expect(propertyFor(make('ps-FormControl'), 'display')).toBe('flex');
     expect(propertyFor(make('ps-FormGroup', 'fieldset'), 'min-inline-size')).toBe('0');
     expect(propertyFor(make('ps-FormLabel', 'label', { 'data-disabled': '' }), 'color')).toContain('disabled');
@@ -95,7 +95,7 @@ describe('formControl.css contracts', () => {
     expect(propertyFor(label, 'color')).toContain('warning');
   });
 
-  it('T25 draws the required indicator with aria-ignorable generated content', () => {
+  it('draws the required indicator with aria-ignorable generated content', () => {
     expect(source).toMatch(/\.ps-FormControl\[data-required\] \.ps-FormLabel::after\s*\{[^}]*content:\s*'\*' \/ ''/);
   });
 
@@ -106,7 +106,7 @@ describe('formControl.css contracts', () => {
     expect(forcedColors).toMatch(/\.ps-FormLabel\[data-invalid\],[^{]*::after \{[^}]*color: CanvasText/);
   });
 
-  it('T25 scales label and helper text from the FormControl size', () => {
+  it('scales label and helper text from the FormControl size', () => {
     const root = make('ps-FormControl', 'div', { 'data-size': 'lg' });
     const label = document.createElement('label');
     label.className = 'ps-FormLabel';
