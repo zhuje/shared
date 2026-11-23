@@ -660,33 +660,24 @@ function SelectRoot({
   };
 
   const engine = searchable ? <SearchEngine {...engineProps} /> : <BasicEngine {...engineProps} />;
-  const rootClassName = clsx('ps-Select', styleClassName, className);
+  const rootProps = {
+    className: clsx('ps-Select', styleClassName, className),
+    style: computedStyle,
+    'data-size': size,
+    'data-status': status,
+    'data-full-width': fullWidth || undefined,
+  };
 
   if (nested) {
     return (
-      <div
-        className={rootClassName}
-        style={computedStyle}
-        data-disabled={disabled || undefined}
-        data-size={size}
-        data-status={status}
-        data-full-width={fullWidth || undefined}
-      >
+      <div {...rootProps} data-disabled={disabled || undefined}>
         {engine}
       </div>
     );
   }
 
   return (
-    <Field.Root
-      className={rootClassName}
-      style={computedStyle}
-      disabled={disabled}
-      invalid={invalid}
-      data-size={size}
-      data-status={status}
-      data-full-width={fullWidth || undefined}
-    >
+    <Field.Root {...rootProps} disabled={disabled} invalid={invalid}>
       {engine}
     </Field.Root>
   );
