@@ -21,6 +21,7 @@ import type { CardContentProps, CardHeaderProps, CardProps } from '../primitives
 import type { CheckboxProps } from '../primitives/Checkbox';
 import type { ChipProps } from '../primitives/Chip';
 import type { DividerProps } from '../primitives/Divider';
+import type { DrawerProps } from '../primitives/Drawer';
 import type { GridItemProps, GridProps } from '../primitives/Grid';
 import type { IconButtonProps } from '../primitives/IconButton';
 import type { MenuCheckboxItemProps, MenuItemProps, MenuLinkItemProps, MenuProps } from '../primitives/Menu';
@@ -60,6 +61,7 @@ export interface PersesComponents {
   Checkbox: RefComponent<CheckboxProps, HTMLElement>;
   Chip: RefComponent<ChipProps, HTMLDivElement>;
   Divider: ComponentType<DividerProps>;
+  Drawer: RefComponent<DrawerProps, HTMLDivElement>;
   Spinner: ComponentType<SpinnerProps>;
   Box: RefComponent<BoxProps, HTMLDivElement>;
   Card: RefComponent<CardProps, HTMLElement>;
